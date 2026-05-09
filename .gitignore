@@ -1,6 +1,10 @@
 # Prerequisites
 *.d
 
+# Build folder
+build/
+CMakeFiles
+
 # Object files
 *.o
 *.ko

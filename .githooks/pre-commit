@@ -1,0 +1,21 @@
+#!/bin/sh
+set -e
+
+STAGED=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(c|h)$' || true)
+
+if [ -z "$STAGED" ]; then
+    exit 0
+fi
+
+FAILED=0
+for file in $STAGED; do
+    if ! clang-format --dry-run --Werror "$file" 2>/dev/null; then
+        echo "  $file"
+        FAILED=1
+    fi
+done
+
+if [ "$FAILED" -eq 1 ]; then
+    echo "clang-format check failed. Run: clang-format -i <file> then re-stage."
+    exit 1
+fi
