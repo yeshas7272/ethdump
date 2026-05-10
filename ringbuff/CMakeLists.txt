@@ -9,3 +9,7 @@ target_link_libraries(ringbuff
     PRIVATE
         pthread
 )
+
+if(BUILD_TESTING)
+    add_subdirectory(test)
+endif()

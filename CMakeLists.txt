@@ -17,6 +17,22 @@ set(CMAKE_C_FLAGS_DEBUG "-g -O2 -Wall -Wextra")
 find_library(PCAP_LIB pcap REQUIRED)
 find_path(PCAP_INCLUDE_DIR pcap.h REQUIRED)
 
+option(BUILD_TESTING "Build unit tests" OFF)
+
+if(BUILD_TESTING)
+    include(CTest)
+    enable_testing()
+
+    include(FetchContent)
+    FetchContent_Declare(
+        unity
+        GIT_REPOSITORY https://github.com/ThrowTheSwitch/Unity.git
+        GIT_TAG        v2.6.0
+        GIT_SHALLOW    TRUE
+    )
+    FetchContent_MakeAvailable(unity)
+endif()
+
 add_subdirectory(ringbuff)
 add_subdirectory(capture)
 add_subdirectory(parser)
